@@ -170,7 +170,7 @@ void Car::steer(Steer direction, float control)
     }
     else
     {
-        if (const float maxAngle = 15.0f * (direction == Steer::Left ? 1 : -1); !m_isHuman)
+        if (const float maxAngle = 45.0f * (direction == Steer::Left ? 1 : -1); !m_isHuman)
         {
             m_tireAngle = static_cast<int>(maxAngle * control);
         }
@@ -186,7 +186,7 @@ void Car::steer(Steer direction, float control)
 void Car::accelerate(bool deccelerate)
 {
     const float maxForce =
-      physicsComponent().mass() * m_desc.accelerationFriction * std::fabs(MCWorld::instance().gravity().k());
+      physicsComponent().mass() * ( m_desc.accelerationFriction * 2.0f ) * std::fabs(MCWorld::instance().gravity().k());
     float currentForce = maxForce;
 
     if (const float velocity = physicsComponent().velocity().length(); velocity > 0.001f)
@@ -260,7 +260,7 @@ bool Car::isSliding()
       MCTrigonom::cos(bodyNormalAngle), MCTrigonom::sin(bodyNormalAngle));
     const MCVector2dF & v = physicsComponent().velocity().normalized();
     const MCVector2dF s = MCVector2dF::projection(v, n);
-    return absSpeed() > 7.5f && s.lengthFast() > 0.25f;
+    return absSpeed() > 12.5f && s.lengthFast() > 0.1f;
 }
 
 int Car::speedInKmh() const
